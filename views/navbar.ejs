@@ -1,0 +1,17 @@
+<!-- navigation bar -->
+<div class="navbar" id="navbar">
+    <span class="navbar-option active"> 
+        <i class="fas fa-home" title="Home" onclick="navigate_to('/')"></i> &nbsp;&nbsp; 
+        <span class="user-container"> 
+        <i class="fa-solid fa-user" <% if(!loggedIn) { %> title="Login/Signup" <% } %> onclick="navigate_to('/login')"></i> 
+        &nbsp;
+        <% if(username) { %> <span> <%= username %> </span> <% } %>        
+        </span>				
+    </span>
+    <span class="navbar-option" onclick="navigate_to('/toolbox')"> Toolbox </span>
+    <a class="navbar-option" href="/games"> Games </a>
+    <a class="navbar-option" href="/blogspace"> Blogspace </a>
+    <a class="navbar-option" href="/about"> About </a>
+    <% if(loggedIn) { %> <a class="navbar-option" href="/logout"> Logout </a> <% } %>    
+    <span class="navbar-option icon" onclick="toggle_hamburger()"> <i class="fa fa-bars"></i> </span>
+</div>

@@ -1,0 +1,7 @@
+site stats => views
+
+blogspace => write, edit, publish blog posts, add, edit, delete comments, reaction emoticons
+
+games => 2048, chain reaction?, text based adventure?, flames
+
+toolbox => uuid, random number generator, coin toss, spin the bottle, sound buttons, polls/surveys?
