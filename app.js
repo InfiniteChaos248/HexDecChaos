@@ -51,11 +51,9 @@ function checkNotAuthenticated(req, res, next) {
 app.use('/', appRouter);
 
 passport.use(new LocalStrategy((username, password, done) => {
-  console.log('authenticate method => ' + username + " - " + password);
   db.get('SELECT * FROM USER WHERE username = ?', username, function (err, row) {
     if (err) throw err;
     if (!row) return done(null, false, { message: "User not found" });
-    console.log('row found => ' + JSON.stringify(row));
     if (bcrypt.compareSync(password, row.password)) {
       return done(null, row)
     } else {
@@ -84,7 +82,7 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 
 app.get('/logout', checkAuthenticated, (req, res) => {
   req.logout((err) => {
-    if(err) throw err;
+    if (err) throw err;
     res.redirect('/');
   });
 })
@@ -94,13 +92,36 @@ app.post('/signup', checkNotAuthenticated, (req, res) => {
   username = req.body.username;
   password = req.body.password;
   hashedPassword = bcrypt.hashSync(password, 10);
-  let insert = 'INSERT INTO USER VALUES (?, ?, ?)';
-  db.run(insert, [username, email, hashedPassword], (result, err) => {
-    if(err) throw err;
-    console.log(result);
-    req.flash('error','user added successfully, you can Login now')
-    res.redirect('/login')
-  });  
+  db.get("SELECT * FROM USER WHERE username = ?", username, (err, row) => {
+    if (err) throw err;
+    if (row) {
+      req.flash('error', 'username is already taken, please use a different one')
+      res.redirect('/signup')
+    } else {
+      db.get("SELECT * FROM USER WHERE email = ?", email, (err, row) => {
+        if (err) throw err;
+        if (row) {
+          req.flash('error', 'email is already taken, please use a different one')
+          res.redirect('/signup')
+        } else {
+          let insert = 'INSERT INTO USER (username, email, password, create_ts) VALUES (?, ?, ?, datetime())';
+          db.run(insert, [username, email, hashedPassword], (result, err) => {
+            if (err) throw err;
+            req.flash('error', 'user added successfully, you can Login now')
+            res.redirect('/login')
+          });
+        }
+      });
+    }
+  });
+});
+
+app.post('/submitComment', (req, res) => {
+  let insert = 'INSERT INTO comment (comment, create_ts) VALUES (?, datetime())';
+  db.run(insert, [req.body.comment], (result, err) => {
+    if (err) throw err;
+    res.status(200).send("submitted");
+  });
 });
 
 // catch 404 and forward to error handler

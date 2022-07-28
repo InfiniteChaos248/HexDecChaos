@@ -1,1 +1,18 @@
-<div class="about-container"> Under Construction</div>
+<div class="about-container">
+    <div class="about-content">Hello There!</div>
+    <div class="about-content">My name is Arjun</div>
+    <div class="about-content">I created this website to showcase my web development skills
+        and to make something fun and useful</div>
+    <div class="about-content">Check out my <a href="https://github.com/InfiniteChaos248" target="_blank">GitHub</a></div>
+    <div class="about-content">If you have any comments or suggestions for this website, <span onclick="show_comment_box()"
+            class="about-box"> click here</span>&nbsp;or send an email to <span id="about-email" title="click to copy to clipboard" class="about-box" onclick="copy_to_clipboard()">chaoticsoftwares@gmail.com</span>
+    </div>
+    <div class="about-content" id="comment_box_container" style="display: none;">
+        <textarea id="comment-box" class="about-textarea" rows="4" cols="50"
+            placeholder="suggestions/comments ..."></textarea>
+        <br />
+        <input class="about-button" style="background-color: green;" type="submit" value="Submit" onclick="submit_comment()"> &nbsp;
+        <input class="about-button" style="background-color: red;" type="button" value="Cancel" onclick="hide_comment_box()"> &nbsp;
+        <span id="submit-comment-response"></span>
+    </div>
+</div>
