@@ -1,0 +1,102 @@
+.roll-container {
+  height: 100%;
+  width: 100%;
+  background-color: #FCF5E5;
+  font-family: system-ui;
+}
+
+.dice-controls {
+  margin-left: 5%;
+  padding-top: 2%;
+}
+
+.dice-controls-row {
+  padding-top: 10px;
+}
+
+.dice-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 80%;
+  margin-left: 5%;
+  margin-top: 2%;
+  padding: 20px;
+  border-style: dashed;
+  border-width: 4px;
+  background-image: url("../images/table.png");
+}
+
+.roll-results {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 80%;
+  margin-left: 5%;
+  margin-top: 2%;
+  padding: 20px;
+  border-style: solid;
+  border-width: 2px;
+  background-color: #7FFFD4;
+}
+
+.roll-result {
+  padding-top: 10px;
+}
+
+.dice {
+  position: relative;
+  text-align: center;
+}
+
+.dice-image {
+  height: 100px;
+  width: 100px;
+}
+
+.dice-value {
+  font-weight: bolder;
+  font-size: large;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 600px) {
+  .dice-table {
+  grid-template-columns: repeat(2, 1fr);
+  }
+
+  .roll-results {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .dice-table {
+  grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+
+.pushable-button {
+  background: black;
+  border-radius: 12px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+}
+.button-text {
+  display: block;
+  padding: 10px 10px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  background: hsl(345deg 100% 47%);
+  color: white;
+  transform: translateY(-6px);
+}
+
+.pushable-button:active .button-text {
+  transform: translateY(-2px);
+}

@@ -38,6 +38,18 @@ router.get('/toolbox', checkLoginStatus, function(req, res, next) {
   res.render('home', { title: 'HexDecChaos!', show: 'toolbox', username: username, loggedIn: loggedIn });
 });
 
+/* GET tool page. */
+router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
+  username = req.user ? req.user.username : req.session.username;
+  loggedIn = req.user;
+  toolName = req.params.tool;
+  showPage = "toolbox"
+  if (toolName == "roll") {
+    showPage = "roll";
+  }
+  res.render('home', { title: 'HexDecChaos!', show: showPage, username: username, loggedIn: loggedIn });
+});
+
 /* GET games page. */
 router.get('/games', checkLoginStatus, function(req, res, next) {
   username = req.user ? req.user.username : req.session.username;
