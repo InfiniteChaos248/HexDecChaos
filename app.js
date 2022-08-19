@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path: '../.env'});
 var app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
