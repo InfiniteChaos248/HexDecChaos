@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npx nodemon ./bin/www"
+    "start": "npx nodemon ./bin/www",
+    "prod": "node ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
