@@ -117,7 +117,7 @@ body {
       width: 100%;
   }
   
-  .tile-info-table-cell-title, .tile-info-table-cell-description, .tile-info-table-cell-chevron {
+  .tile-info-table-cell-title, .tile-info-table-cell-description, .tile-info-table-cell-chevron, .tile-info-table-cell-arrow {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -126,6 +126,7 @@ body {
   .tile-info-table-cell-title {
       width: 90%;
       font-size: larger;
+      cursor: pointer;
   }
   
   .tile-info-table-cell-description {
@@ -134,6 +135,10 @@ body {
   
   .tile-info-table-cell-chevron {
       width: 10%;
+  }
+
+  .tile-info-table-cell-arrow {
+    width: 10%;
   }
   
   @media screen and (max-width: 600px) {
