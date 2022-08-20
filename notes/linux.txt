@@ -1,0 +1,52 @@
+opc@150.230.133.230
+
+// general
+sudo su
+ls
+ls -a
+
+// yum
+sudo yum update
+sudo yum install -y nodejs
+sudo yum install -y git
+sudo yum install -y tmux
+
+// firewall
+firewall-cmd --reload
+firewall-cmd --zone=public --list-services
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --list-ports
+firewall-cmd --permanent --add-port=3000/tcp
+
+// removing files and folder
+rm -rf *
+rm -rf .git
+rm -rf .gitignore
+rmdir HexDecChaos/
+
+// directory
+cd /usr/hexdecchaos/HexDecChaos/
+
+// sqlite3
+sqlite3 app.db
+
+// git
+git clone https://github.com/InfiniteChaos248/HexDecChaos.git
+
+// start app
+npm run-scripts prod
+
+// edit .env
+sudo nano .env
+ctrl+O to save
+ctrl+X to close
+
+// kill process
+netstat -tunlp
+kill -9 <pid>
+
+// tmux
+tmux list-session
+tmux new-session -s hexdecchaos -d
+tmux attach-session -t hexdecchaos

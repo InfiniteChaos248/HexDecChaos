@@ -1,0 +1,34 @@
+DNS, CI/CD, name
+
+features pipeline:
+coin flip
+UUID and RNG
+dice profiles
+birthday calendar
+
+site stats => views
+
+blogspace => write, edit, publish blog posts, add, edit, delete comments, reaction emoticons
+
+quiz engine
+
+games => 2048, chain reaction?, text based adventure?, flames
+
+toolbox => uuid, random number generator, coin toss, spin the bottle, sound buttons, polls/surveys?
+
+user => delete account, recover password
+
+about => share with friends, support me
+
+completed:
+roll
+
+
+.env
+ENVIRONMENT=<dev|prod>
+PORT=<?>
+MORGAN_FORMAT=<combined|common|dev|short}tiny>
+BCRYPT_SALT_VERSION=<10|12>
+SESSION_SECRET=<UUID>
+DATABASE_NAME=<path_to_db>
+PASSPHRASE=<passphrase>

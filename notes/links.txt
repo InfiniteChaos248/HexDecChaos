@@ -1,0 +1,14 @@
+https://docs.oracle.com/en-us/iaas/developer-tutorials/tutorials/node-on-ol/01oci-ol-node-summary.htm
+https://docs.oracle.com/en/learn/lab_compute_instance/index.html#connect-to-the-instance-and-install-apache-http-server
+
+https://thenounproject.com/search/icons/?iconspage=1
+
+https://docs.oracle.com/en-us/iaas/developer-tutorials/tutorials/node-on-ol/01oci-ol-node-summary.htm
+
+https://dev.to/omergulen/step-by-step-node-express-ssl-certificate-run-https-server-from-scratch-in-5-steps-5b87
+https://stackoverflow.com/questions/10175812/how-to-generate-a-self-signed-ssl-certificate-using-openssl
+
+https://askubuntu.com/questions/487527/give-specific-user-permission-to-write-to-a-folder-using-w-notation
+https://stackoverflow.com/questions/25505652/winscp-permission-denied-error-code-3-error-message-from-server-permission-d
+
+https://www.baeldung.com/linux/tmux
