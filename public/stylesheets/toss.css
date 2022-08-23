@@ -1,0 +1,45 @@
+.toss-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+.coin {
+    border-style: solid;
+    background-color: black;
+    color: white;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.05s;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    font-size: x-large;
+}
+
+@media screen and (max-width: 600px) {
+    .coin {
+        height: 150px;
+        width: 150px;
+        font-size: larger;
+    }
+}
+
+.coin-front, .coin-back {    
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .coin-front {
+    transform: rotateY(0deg);
+  }
+  
+  .coin-back {
+    transform: rotateY(180deg);
+  }

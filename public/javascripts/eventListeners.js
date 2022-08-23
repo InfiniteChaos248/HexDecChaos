@@ -75,4 +75,10 @@ window.onload = () => {
             addDiceToTable();
         });
     }
+
+    if (document.getElementById("coin")) {
+        document.getElementById("coin").addEventListener("click", () => {
+            toss();
+        });
+    }
 }

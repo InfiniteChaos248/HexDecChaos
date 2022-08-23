@@ -26,6 +26,9 @@ router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
   if (toolName == "roll") {
     showPage = "roll";
   }
+  if (toolName == "toss") {
+    showPage = "toss";
+  }
   res.render('home', { title: 'HexDecChaos!', show: showPage, username: username, loggedIn: loggedIn });
 });
 

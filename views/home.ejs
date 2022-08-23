@@ -6,15 +6,18 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/home.css' />
     <link rel='stylesheet' href='/stylesheets/roll.css' />
+    <link rel='stylesheet' href='/stylesheets/toss.css' />
     <script type="text/javascript" src="/javascripts/eventListeners.js"></script>
     <script type="text/javascript" src="/javascripts/home.js"></script>
     <script type="text/javascript" src="/javascripts/roll.js"></script>
+    <script type="text/javascript" src="/javascripts/toss.js"></script>
   </head>
   <body>    
     <%- include('navbar.ejs') %>
     <% if(show == 'home') { %> <%- include('tiles.ejs') %> <% } %>
     <% if(show == 'toolbox') { %> <%- include('toolbox.ejs') %> <% } %>
     <% if(show == 'roll') { %> <%- include('roll.ejs') %> <% } %>
+    <% if(show == 'toss') { %> <%- include('toss.ejs') %> <% } %>
     <% if(show == 'games') { %> <%- include('games.ejs') %> <% } %>
     <% if(show == 'blogspace') { %> <%- include('blogspace.ejs') %> <% } %>
     <% if(show == 'about') { %> <%- include('about.ejs') %> <% } %>
