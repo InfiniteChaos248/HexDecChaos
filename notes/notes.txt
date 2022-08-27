@@ -17,3 +17,4 @@ BCRYPT_SALT_VERSION=<10|12>
 SESSION_SECRET=<UUID>
 DATABASE_NAME=<path_to_db>
 PASSPHRASE=<passphrase>
+ROOT_URL=http://localhost/

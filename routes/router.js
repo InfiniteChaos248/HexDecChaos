@@ -6,24 +6,31 @@ dotenv.config({path: '../.env'});
 
 var {checkLoginStatus, checkNotAuthenticated} = require('../util/userUtil');
 
-/* GET home page. */
-router.get('/', checkLoginStatus, function(req, res, next) {
+function render_options(req, showPage) {
   username = req.user ? req.user.username : req.session.username;
   loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'home', username: username, loggedIn: loggedIn });
+  options = { 
+    title: 'HexDecChaos!', 
+    show: showPage, 
+    username: username, 
+    loggedIn: loggedIn, 
+    url: process.env.ROOT_URL 
+  };
+  return options;
+}
+
+/* GET home page. */
+router.get('/', checkLoginStatus, function(req, res, next) {
+  res.render('home', render_options(req, 'home'));
 });
 
 /* GET toolbox page. */
 router.get('/toolbox', checkLoginStatus, function(req, res, next) {
-  username = req.user ? req.user.username : req.session.username;
-  loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'toolbox', username: username, loggedIn: loggedIn });
+  res.render('home', render_options(req, 'toolbox'));
 });
 
 /* GET tool page. */
 router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
-  username = req.user ? req.user.username : req.session.username;
-  loggedIn = req.user;
   toolName = req.params.tool;
   showPage = "toolbox"
   if (toolName == "roll") {
@@ -35,38 +42,36 @@ router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
   if (toolName == "gen") {
     showPage = "gen";
   }
-  res.render('home', { title: 'HexDecChaos!', show: showPage, username: username, loggedIn: loggedIn, url: process.env.ROOT_URL });
+  res.render('home', render_options(req, showPage));
 });
 
 /* GET games page. */
 router.get('/games', checkLoginStatus, function(req, res, next) {
-  username = req.user ? req.user.username : req.session.username;
-  loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'games', username: username, loggedIn: loggedIn });
+  res.render('home', render_options(req, 'games'));
 });
 
 /* GET blogspace page. */
 router.get('/blogspace', checkLoginStatus, function(req, res, next) {
-  username = req.user ? req.user.username : req.session.username;
-  loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'blogspace', username: username, loggedIn: loggedIn});
+  res.render('home', render_options(req, 'blogspace'));
 });
 
 /* GET about page. */
 router.get('/about', checkLoginStatus, function(req, res, next) {
-  username = req.user ? req.user.username : req.session.username;
-  loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'about', username: username, loggedIn: loggedIn, url: process.env.ROOT_URL });
+  res.render('home', render_options(req, 'about'));
 });
 
 /* GET Login page. */
 router.get('/login', checkNotAuthenticated, function(req, res, next) {
-  res.render('home', { title: 'HexDecChaos!', show: 'login', username: '?', loggedIn: false });
+  var options = render_options(req, 'login');
+  options.username = '?';
+  res.render('home', options);
 });
 
 /* GET Signup page. */
 router.get('/signup', checkNotAuthenticated, function(req, res, next) {
-  res.render('home', { title: 'HexDecChaos!', show: 'signup', username: '?', loggedIn: false });
+  var options = render_options(req, 'signup');
+  options.username = '?';
+  res.render('home', options);
 });
 
 module.exports = router;
