@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+const dotenv = require('dotenv');
+dotenv.config({path: '../.env'});
+
 var {checkLoginStatus, checkNotAuthenticated} = require('../util/userUtil');
 
 /* GET home page. */
@@ -32,7 +35,7 @@ router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
   if (toolName == "gen") {
     showPage = "gen";
   }
-  res.render('home', { title: 'HexDecChaos!', show: showPage, username: username, loggedIn: loggedIn });
+  res.render('home', { title: 'HexDecChaos!', show: showPage, username: username, loggedIn: loggedIn, url: process.env.ROOT_URL });
 });
 
 /* GET games page. */
@@ -53,7 +56,7 @@ router.get('/blogspace', checkLoginStatus, function(req, res, next) {
 router.get('/about', checkLoginStatus, function(req, res, next) {
   username = req.user ? req.user.username : req.session.username;
   loggedIn = req.user;
-  res.render('home', { title: 'HexDecChaos!', show: 'about', username: username, loggedIn: loggedIn });
+  res.render('home', { title: 'HexDecChaos!', show: 'about', username: username, loggedIn: loggedIn, url: process.env.ROOT_URL });
 });
 
 /* GET Login page. */

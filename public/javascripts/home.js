@@ -53,7 +53,7 @@ function submit_comment() {
             document.getElementById('comment-box').value = "";
         }
     }
-    xmlhttp.open("POST", "http://localhost/submitComment", true);
+    xmlhttp.open("POST", document.getElementById("url").innerHTML + "submitComment", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(JSON.stringify(request));
 }
