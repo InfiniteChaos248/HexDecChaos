@@ -38,6 +38,9 @@ app.use('/', appRouter);
 var userController = require('./controllers/userController');
 app.use('/', userController);
 
+var toolboxController = require('./controllers/toolboxController');
+app.use('/', toolboxController);
+
 var createError = require('http-errors');
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

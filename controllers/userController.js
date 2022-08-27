@@ -1,7 +1,7 @@
 var express = require('express');
 var controller = express.Router();
 
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 const db = require('../util/database');
 const passport = require('../util/passportConfig');
@@ -19,7 +19,7 @@ controller.post('/login', checkNotAuthenticated, passport.authenticate('local', 
       if (err) throw err;
       res.redirect('/');
     });
-  })
+  });
   
   controller.post('/signup', checkNotAuthenticated, (req, res) => {
     email = req.body.email;

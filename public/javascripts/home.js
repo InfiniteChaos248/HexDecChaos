@@ -39,8 +39,8 @@ function hide_comment_box() {
     document.getElementById('comment-box').value = "";
 }
 
-function copy_to_clipboard() {
-    var copyText = document.getElementById("about-email").innerHTML;
+function copy_to_clipboard(id) {
+    var copyText = document.getElementById(id).innerHTML;
     navigator.clipboard.writeText(copyText);
 }
 
@@ -53,7 +53,7 @@ function submit_comment() {
             document.getElementById('comment-box').value = "";
         }
     }
-    xmlhttp.open("POST", "http://localhost:3000/submitComment", true);
+    xmlhttp.open("POST", "http://localhost/submitComment", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(JSON.stringify(request));
 }

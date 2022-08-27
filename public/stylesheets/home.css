@@ -267,3 +267,16 @@ body {
   height: 500px;
   width: 100%;
 }
+
+.gen-container {
+  padding: 20px;
+  width: 100%;
+}
+
+.gen-section {
+  padding: 5px;
+}
+
+.digit-selector {
+  width: 40px;
+}

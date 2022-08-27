@@ -42,7 +42,7 @@ window.onload = () => {
 
     if (document.getElementById("about-email")) {
         document.getElementById("about-email").addEventListener("click", () => {
-            copy_to_clipboard();
+            copy_to_clipboard("about-email");
         });
     }
 
@@ -79,6 +79,25 @@ window.onload = () => {
     if (document.getElementById("coin")) {
         document.getElementById("coin").addEventListener("click", () => {
             toss();
+        });
+    }
+
+    var popups = [...document.getElementsByClassName("popup")];
+    popups.forEach(popup => {
+        popup.addEventListener("click", () => {
+            popup.querySelector(".popuptext").classList.toggle("show");
+        });
+    });
+
+    if (document.getElementById("rng-button")) {
+        document.getElementById("rng-button").addEventListener("click", () => {
+            generateNumber();
+        });
+    }
+
+    if (document.getElementById("uuid-button")) {
+        document.getElementById("uuid-button").addEventListener("click", () => {
+            generateUUID();
         });
     }
 }

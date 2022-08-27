@@ -5,6 +5,8 @@ about
 login/signup
 roll
 toss
+popup
+gen
 
 
 .env
