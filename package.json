@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npx nodemon ./bin/www",
-    "prod": "node ./bin/www"
+    "start": "npx nodemon ./server",
+    "prod": "node ./server"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +17,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
+    "greenlock-express": "^4.0.3",
     "helmet": "^5.1.1",
     "http": "^0.0.1-security",
     "http-errors": "~1.6.3",

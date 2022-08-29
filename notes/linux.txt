@@ -50,3 +50,7 @@ kill -9 <pid>
 tmux list-session
 tmux new-session -s hexdecchaos -d
 tmux attach-session -t hexdecchaos
+
+// greenlock
+npx greenlock init --config-dir ../certs/greenlock.d --maintainer-email 'chaoticsoftwares@gmail.com'
+npx greenlock add --subject example.com --altnames example.com
