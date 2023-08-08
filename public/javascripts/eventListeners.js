@@ -1,4 +1,9 @@
-window.onload = () => {
+window.addEventListener('load', () => {
+
+    console.log("uid = " + uid)
+    console.log("username = " + username)
+    console.log("url = " + url)
+
     document.getElementById("navbar-home").addEventListener("click", () => {
         navigate_to('/');
     });
@@ -12,27 +17,27 @@ window.onload = () => {
     });
 
     var tiles = [...document.querySelectorAll(".tile")];
-    tiles.forEach((tile, index) => {        
+    tiles.forEach((tile, index) => {
         var chevrons = [...tile.querySelectorAll(".tile-info-table-cell-chevron")];
         chevrons.forEach(chevron => {
-            chevron.addEventListener("click", () => {            
-            toggle_flip(index);
+            chevron.addEventListener("click", () => {
+                toggle_flip(index);
             });
         });
-        if(tile.id !== "tile-welcome") {
+        if (tile.id !== "tile-welcome") {
             var path = tile.id.split('-')[1];
-            if(tile.querySelector(".tile-info-table-cell-title")) {
+            if (tile.querySelector(".tile-info-table-cell-title")) {
                 tile.querySelector(".tile-info-table-cell-title").addEventListener("click", () => {
                     navigate_to("/" + path);
                 });
             }
-            if(tile.querySelector(".tile-info-table-cell-arrow")) {
+            if (tile.querySelector(".tile-info-table-cell-arrow")) {
                 tile.querySelector(".tile-info-table-cell-arrow").addEventListener("click", () => {
                     navigate_to("/" + path);
                 });
             }
         }
-    });    
+    });
 
     if (document.getElementById("about-show-comment-box")) {
         document.getElementById("about-show-comment-box").addEventListener("click", () => {
@@ -99,5 +104,5 @@ window.onload = () => {
         document.getElementById("uuid-button").addEventListener("click", () => {
             generateUUID();
         });
-    }
-}
+    }    
+});

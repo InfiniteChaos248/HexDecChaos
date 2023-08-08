@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title><%= title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel='stylesheet' href='/stylesheets/home.css' />
     <link rel='stylesheet' href='/stylesheets/roll.css' />
     <link rel='stylesheet' href='/stylesheets/toss.css' />
     <link rel='stylesheet' href='/stylesheets/popup.css' />
+    <link rel='stylesheet' href='/stylesheets/bday.css' />
+
     <script type="text/javascript" src="/javascripts/eventListeners.js"></script>
     <script type="text/javascript" src="/javascripts/home.js"></script>
     <script type="text/javascript" src="/javascripts/roll.js"></script>
     <script type="text/javascript" src="/javascripts/toss.js"></script>
     <script type="text/javascript" src="/javascripts/gen.js"></script>
+    <script type="text/javascript" src="/javascripts/bday.js"></script>
+
+    <script nonce="a16ea077">
+      const uid = '<%= uid %>';
+      const username = '<%= username %>';
+      const url = '<%= url %>';
+    </script>
   </head>
+
   <body>    
     <%- include('navbar.ejs') %>
     <% if(show == 'home') { %> <%- include('tiles.ejs') %> <% } %>
@@ -21,11 +33,11 @@
     <% if(show == 'roll') { %> <%- include('roll.ejs') %> <% } %>
     <% if(show == 'toss') { %> <%- include('toss.ejs') %> <% } %>
     <% if(show == 'gen') { %> <%- include('gen.ejs') %> <% } %>
+    <% if(show == 'bday') { %> <%- include('./bday/bday.ejs') %> <% } %>
     <% if(show == 'games') { %> <%- include('games.ejs') %> <% } %>
     <% if(show == 'blogspace') { %> <%- include('blogspace.ejs') %> <% } %>
     <% if(show == 'about') { %> <%- include('about.ejs') %> <% } %>
     <% if(show == 'login') { %> <%- include('login.ejs') %> <% } %>
-    <% if(show == 'signup') { %> <%- include('signup.ejs') %> <% } %>
-    <% if (url) { %> <div id="url" hidden><%= url %></div> <% } %>
+    <% if(show == 'signup') { %> <%- include('signup.ejs') %> <% } %>    
   </body>
 </html>

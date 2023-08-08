@@ -19,6 +19,16 @@ function toggle_flip(containerIndex) {
     }
 }
 
+function set_hidden(id, hidden) {
+    document.getElementById(id).hidden = hidden;
+}
+
+function toggle_hidden(id) {
+    var flag = document.getElementById(id).hidden;
+    document.getElementById(id).hidden = !flag;
+    return !flag;
+}
+
 function random_background_color() {
     const random = Math.floor(Math.random() * colors.length);
     return colors[random];
@@ -53,7 +63,7 @@ function submit_comment() {
             document.getElementById('comment-box').value = "";
         }
     }
-    xmlhttp.open("POST", document.getElementById("url").innerHTML + "submitComment", true);
+    xmlhttp.open("POST", url + "submitComment", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(JSON.stringify(request));
 }

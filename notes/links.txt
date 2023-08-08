@@ -12,3 +12,9 @@ https://askubuntu.com/questions/487527/give-specific-user-permission-to-write-to
 https://stackoverflow.com/questions/25505652/winscp-permission-denied-error-code-3-error-message-from-server-permission-d
 
 https://www.baeldung.com/linux/tmux
+
+https://github.com/winstonjs/winston
+https://stackoverflow.com/questions/27906551/node-js-logging-use-morgan-and-winston
+
+https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/
+https://www.reddit.com/r/Python/comments/8bb102/comment/dx5qklz/

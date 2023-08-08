@@ -11,6 +11,10 @@ sudo yum install -y nodejs
 sudo yum install -y git
 sudo yum install -y tmux
 
+curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -
+sudo yum remove -y nodejs npm
+sudo yum install -y nodejs
+
 // firewall
 firewall-cmd --reload
 firewall-cmd --zone=public --list-services
@@ -37,6 +41,9 @@ git clone https://github.com/InfiniteChaos248/HexDecChaos.git
 // start app
 npm run-scripts prod
 
+// view hidden files and dirs
+ls -a
+
 // edit .env
 sudo nano .env
 ctrl+O to save
@@ -53,4 +60,4 @@ tmux attach-session -t hexdecchaos
 
 // greenlock
 npx greenlock init --config-dir ../certs/greenlock.d --maintainer-email 'chaoticsoftwares@gmail.com'
-npx greenlock add --subject example.com --altnames example.com
+npx greenlock add --subject hexadecimalchaos.com --altnames hexadecimalchaos.com

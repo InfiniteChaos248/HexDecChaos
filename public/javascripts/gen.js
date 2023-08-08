@@ -15,6 +15,6 @@ function generateUUID() {
             copy_to_clipboard("generated-uuid");
         }
     }
-    xmlhttp.open("GET", document.getElementById("url").innerHTML + "uuid", true);
+    xmlhttp.open("GET", url + "uuid", true);
     xmlhttp.send();
 }

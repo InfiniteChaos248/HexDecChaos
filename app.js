@@ -10,7 +10,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const helmet = require('helmet');
-app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+    "connect-src": ["*"],
+    "script-src": ["'self'", "'nonce-" + process.env.SCRIPT_NONCE + "'"]
+  }
+}))
 
 const flash = require('express-flash');
 app.use(flash())
@@ -26,8 +32,13 @@ var passport = require('./util/passportConfig');
 app.use(passport.initialize())
 app.use(passport.session())
 
-var logger = require('morgan');
-app.use(logger(process.env.MORGAN_FORMAT));
+var logger = require("./log");
+logger.stream = {
+  write: function(message, encoding){
+      logger.info(message);
+  }
+};
+app.use(require('morgan')(process.env.MORGAN_FORMAT, { "stream": logger.stream }));
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());

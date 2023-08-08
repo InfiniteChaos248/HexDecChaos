@@ -7,6 +7,22 @@ roll
 toss
 popup
 gen
+website name https://www.hexadecimalchaos.com/
+SSL certificate = greenlock
+DNS = GoDaddy
+
+scheduler dev queue:
+birthday list view
+compute timedelta for schedule, string formatting timedelta
+
+scheduler completed:
+apscheduler analysis [ https://apscheduler.readthedocs.io/en/stable/userguide.html ]
+sqlite3 analysis [ https://www.tutorialspoint.com/sqlite/sqlite_python.htm ]
+sqlite3 jobstore for apscheduler
+add birthday event
+update birthday event
+delete birthday event
+if event is recurring, add new reminder after alert is triggered
 
 
 .env

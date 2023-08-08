@@ -1,0 +1,118 @@
+<div id="bday-container" class="bday-container">
+    <div class="bday-controls">
+        <input id="bday-add-new-button" type="button" value="add birthday" />
+        <input id="today-button" type="button" value="today" />
+        <input id="notification-settings-add-button" type="button" value="add notification mode" />
+    </div>
+    <div id="notification-settings-container"></div>    
+    <div class="bday-controls">
+        sort: 
+        <select id="sort-options">
+            <option value="month" selected>Month</option>
+            <option value="relationship">Relationship</option>
+            <option value="color">Background Color</option>        
+        </select>
+    </div>
+    <div class="bday-controls">
+        filters:
+        <select id="month-filter">
+            <option value="" selected>Month</option>            
+        </select>
+        <select id="relationship-filter">
+            <option value="" selected>Relationship</option>            
+        </select>
+        <select id="color-filter">
+            <option value="" selected>Background Color</option>            
+        </select>
+        <input id="apply-filter-button" type="button" value="apply" />
+        <input id="clear-filter-button" type="button" value="clear" />
+    </div>  
+
+    
+
+    <div id="notifications-modal" class="notifications-modal" hidden>
+        <div class="notifications-modal-content">
+            <div class="new-mode-form">                
+                    <div>
+                        <span>Notification modes: </span><span id="notifications-new-mode" style="font-size: large; color: green; cursor: pointer;">+</span>
+                    </div>
+                    <div id="notifications-mode-list" style="margin: 0px;"></div>
+                    <div id="notifications-new-mode-form" hidden>          
+                        <select id="mode-type" required style="width: 100%;">
+                            <option value="TELEGRAM" selected>Telegram</option>
+                        </select><br>
+                        <input id="mode-value" type="text" required style="width: 100%;" placeholder="handle">                        
+                        <span id="form-cancel-new-mode" style="font-size: large; color: red; cursor: pointer;">X</span>
+                        <span id="form-add-new-mode" style="font-size: large; color: green; cursor: pointer;">&#10003;</span>
+                    </div><br>                    
+                </div>        
+                <span id="notifications-modal-close-button" style="font-size: medium; color: red; cursor: pointer; position: relative;">close</span>                
+        </div>
+    </div>
+
+    <div id="bday-modal" class="bday-modal" hidden>
+        <div class="bday-modal-content">
+            <form id="bday-add-new-form" class="bday-new-form">
+                <fieldset>
+                    <legend id="bday-modal-legend">Add Birthday: </legend>
+        
+                    <div id="bday-eid" hidden></div>
+
+                    <label for="bday-name">* Name:</label><br>
+                    <input type="text" id="bday-name" style="width: 100%;" placeholder="Whose birthday?" required><br>
+        
+                    <label for="bday-relationship">Relationship:</label><br>
+                    <input type="text" id="bday-relationship" style="width: 100%;" placeholder="How are you related?"><br>
+        
+                    <label for="bday-year">Year:</label><br>
+                    <input type="number" id="bday-year" min="1" style="width: 100%;" placeholder="don't know? don't worry"><br>
+        
+                    <label for="bday-month">* Month:</label><br>
+                    <select id="bday-month" required style="width: 100%;">
+                        <option value="0" selected disabled>Select month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select><br>
+        
+                    <label for="bday-day">* Day:</label><br>
+                    <input type="number" id="bday-day" min="1" max="31" style="width: 100%;" required placeholder="please don't input Feb31"><br>
+        
+                    <label for="bday-notes">Notes:</label><br>
+                    <input type="text" id="bday-notes" style="width: 100%;" placeholder="before you forget .."><br>
+        
+                    <span>Reminders: </span><span id="form-new-rem" style="font-size: large; color: green; cursor: pointer;">+</span>
+                    <div id="rem-list" style="margin: 0px;">
+                        <div id="rem-DEFAULT">default (on birthday)</div>
+                    </div>
+                    <div id="form-new-rem-div" hidden>
+                        <input id="rem-days" type="number" min="1" max="99" required style="width: 100%;" placeholder="before how many days?">
+                        <span id="form-cancel-new-rem" style="font-size: large; color: red; cursor: pointer;">X</span>
+                        <span id="form-add-new-rem" style="font-size: large; color: green; cursor: pointer;">&#10003;</span>
+                    </div>                    
+
+                    <div>
+                        <input style="border-style: none;" type="color" id="bday-bg" value="#000000">
+                        <input style="border-style: none;" type="color" id="bday-txt" value="#ffffff">
+                        <span style="border-style: solid; border-width: 1px; background-color: #000000; color: #ffffff;" id="bday-color-output">Output</span>
+                    </div>
+        
+                    <br>
+                    <input id="bday-add-new-submit-button" type="button" value="OK" />
+                    <input id="bday-add-new-cancel-button" type="button" value="Cancel" />
+                </fieldset>
+            </form>
+          </div>
+    </div>    
+
+    <div id="bday-list-container" class="bday-list-container"></div>
+</div>

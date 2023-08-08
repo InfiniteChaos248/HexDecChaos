@@ -7,11 +7,13 @@ dotenv.config({path: '../.env'});
 var {checkLoginStatus, checkNotAuthenticated} = require('../util/userUtil');
 
 function render_options(req, showPage) {
+  uid = req.user ? req.user.id : -1;
   username = req.user ? req.user.username : req.session.username;
   loggedIn = req.user;
   options = { 
     title: 'HexDecChaos!', 
-    show: showPage, 
+    show: showPage,
+    uid: uid, 
     username: username, 
     loggedIn: loggedIn, 
     url: process.env.ROOT_URL 
@@ -41,6 +43,9 @@ router.get('/toolbox/:tool', checkLoginStatus, function(req, res, next) {
   }
   if (toolName == "gen") {
     showPage = "gen";
+  }
+  if (toolName == "bday") {
+    showPage = "bday";
   }
   res.render('home', render_options(req, showPage));
 });
