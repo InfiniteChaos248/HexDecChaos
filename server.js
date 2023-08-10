@@ -1,4 +1,5 @@
 const app = require('./app');
+const bot = require('./telegram/telegram_bot');
 
 if (process.env.ENVIRONMENT === 'prod') {
     const greenlock = require('greenlock-express');
@@ -29,3 +30,4 @@ if (process.env.ENVIRONMENT === 'prod') {
     });
 }
 
+bot.launch();

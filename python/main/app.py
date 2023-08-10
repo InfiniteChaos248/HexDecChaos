@@ -1,21 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.triggers.date import DateTrigger
 from datetime import datetime, timedelta
 import sqlite3
-import json
 import config
+import scheduler_config
+from expiringdict import ExpiringDict
+import json
+
+scheduler = scheduler_config.scheduler
+telegram_registration_cache = ExpiringDict(max_age_seconds=180, max_len=100)
 
 app = Flask(__name__)
 CORS(app)
-
-jobstores = {
-    'default': SQLAlchemyJobStore(url=config.JOBSTORE_URL)
-}
-
-scheduler = BackgroundScheduler(jobstores=jobstores)
 
 @app.route('/')
 def server_health():
@@ -31,12 +27,19 @@ def scheduler_status():
     if scheduler.state == 2:
         return 'scheduler is paused'    
 
+@app.route('/telegram/register/cache', methods=['POST'])   
+def telegram_register_cache():
+    data = json.loads(request.json)
+    otp = data['otp']
+    chat_id = data['chat_id']
+    telegram_registration_cache[otp] = chat_id
+    return 'success'
+
 @app.route('/birthday/add', methods=['POST'])   
 def add_birthday_event_controller():
     event_data = request.json
     event_data['uid'] = request.headers['uid']
     event_data['username'] = request.headers['username']
-    print("request = " + str(event_data))
     add_birthday_event(event_data)
     return 'success'
 
@@ -45,7 +48,6 @@ def update_birthday_event_controller():
     event_data = request.json
     event_data['uid'] = request.headers['uid']
     event_data['username'] = request.headers['username']
-    print("request = " + str(event_data))
     update_birthday_event(event_data)
     return 'success'   
 
@@ -54,7 +56,6 @@ def delete_birthday_event_controller():
     event_data = request.json
     event_data['uid'] = request.headers['uid']
     event_data['username'] = request.headers['username']
-    print("request = " + str(event_data))
     delete_birthday_event(event_data)
     return 'success'     
 
@@ -80,7 +81,7 @@ def list_notifications_setting_controller():
     data = {}
     data['uid'] = request.headers['uid']
     data['username'] = request.headers['username']
-    return list_notifications_setting(data)
+    return jsonify(list_notifications_setting(data))
 
 def timedelta_for_schedule(reminder):
     if reminder=='DEFAULT':
@@ -218,12 +219,15 @@ def list_notifications_setting(data):
     uid = data['uid']
     username = data['username']
 
-    cursor = conn.execute(f'SELECT * FROM TOOLBOX_DATA WHERE USERNAME="{username}" AND UID={uid} AND TOOL="bday" LIMIT 1;')
+    cursor = conn.execute(f'SELECT * FROM USER WHERE USERNAME="{username}" AND ID={uid} LIMIT 1;')
     row = cursor.fetchone()
-    if row == None:
-        return ''
-    else:
-        return row[4]
+    resp = {}
+    if row != None:        
+        if row[6] != None:
+            resp['MOBILE'] = row[6]
+        if row[7] != None:
+            resp['TELEGRAM'] = row[7]
+    return resp
 
 
 def add_notifications_setting(data):
@@ -232,23 +236,14 @@ def add_notifications_setting(data):
     uid = data['uid']
     username = data['username']
     type = data['type']
-    value = data['value']    
+    value = data['value']
 
-    cursor = conn.execute(f'SELECT * FROM TOOLBOX_DATA WHERE USERNAME="{username}" AND UID={uid} AND TOOL="bday" LIMIT 1;')
-    row = cursor.fetchone()
-    if row == None:
-        # add row
-        bday_data = type + ':' + value        
-        conn.execute(f'INSERT INTO TOOLBOX_DATA(UID, USERNAME, TOOL, DATA) VALUES({uid}, "{username}", "bday", "{bday_data}");')        
-    else:
-        # update row
-        bday_data = row[4]
-        if type in bday_data:            
-            return 'setting already exists'
-        bday_data = bday_data + "|" + type + ':' + value
-        conn.execute(f'UPDATE TOOLBOX_DATA SET DATA = {json.dumps(bday_data, indent=4)} WHERE USERNAME="{username}" AND UID={uid} AND TOOL="bday";')
-    conn.commit()
-    cursor.close()
+    if type == 'MOBILE':
+        conn.execute(f'UPDATE USER SET MOBILE="{value}" WHERE USERNAME="{username}" AND ID={uid}')
+    elif type == "TELEGRAM":
+        conn.execute(f'UPDATE USER SET TELEGRAM="{value}" WHERE USERNAME="{username}" AND ID={uid}')
+    
+    conn.commit()    
     conn.close()
     return 'success'
 
@@ -256,4 +251,4 @@ def add_notifications_setting(data):
 
 if __name__ == '__main__':
     scheduler.start()
-    app.run()
+    app.run()    

@@ -52,6 +52,9 @@ app.use('/', userController);
 var toolboxController = require('./controllers/toolboxController');
 app.use('/', toolboxController);
 
+var eventsController = require('./controllers/eventsController');
+app.use('/', eventsController);
+
 var createError = require('http-errors');
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

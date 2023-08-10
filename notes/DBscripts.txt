@@ -6,6 +6,9 @@ CREATE TABLE user (
     name text,
     create_ts text not null);
 
+alter table user add mobile text;
+alter table user add telegram text; 
+
 CREATE TABLE comment (
     id integer primary key,
     comment text not null,

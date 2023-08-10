@@ -23,7 +23,7 @@
     border: 1px solid #888;
 }
 
-.notifications-modal {
+.telegram-register-modal {
     position: fixed;
     z-index: 1;
     padding-top: 100px;
@@ -36,7 +36,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.notifications-modal-content {
+.telegram-register-modal-content {
     position: absolute;
     left: 50%;
     top: 50%;

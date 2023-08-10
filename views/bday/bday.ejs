@@ -1,19 +1,22 @@
 <div id="bday-container" class="bday-container">
-    <div class="bday-controls">
-        <input id="bday-add-new-button" type="button" value="add birthday" />
-        <input id="today-button" type="button" value="today" />
-        <input id="notification-settings-add-button" type="button" value="add notification mode" />
+    <div id="notification-settings-container">
+        <span>Telegram reminders enabled : </span>
+        &nbsp;<span id="telegram-enabled"></span>
+        &nbsp;<span style="color: seagreen; text-decoration: underline;" id="telegram-register-button" hidden>register</span>
+        &nbsp;<span style="color: seagreen; text-decoration: underline;" id="telegram-test-button" hidden>test</span>
+        &nbsp;<span style="color: red; text-decoration: underline;" id="telegram-deregister-button" hidden>deregister</span>
     </div>
-    <div id="notification-settings-container"></div>    
     <div class="bday-controls">
+        <input id="bday-add-new-button" type="button" value="add birthday" />&nbsp;
         sort: 
         <select id="sort-options">
             <option value="month" selected>Month</option>
             <option value="relationship">Relationship</option>
             <option value="color">Background Color</option>        
         </select>
-    </div>
+    </div>       
     <div class="bday-controls">
+        <input id="today-button" type="button" value="today" />&nbsp;        
         filters:
         <select id="month-filter">
             <option value="" selected>Month</option>            
@@ -26,27 +29,15 @@
         </select>
         <input id="apply-filter-button" type="button" value="apply" />
         <input id="clear-filter-button" type="button" value="clear" />
-    </div>  
+    </div>        
 
-    
-
-    <div id="notifications-modal" class="notifications-modal" hidden>
-        <div class="notifications-modal-content">
-            <div class="new-mode-form">                
-                    <div>
-                        <span>Notification modes: </span><span id="notifications-new-mode" style="font-size: large; color: green; cursor: pointer;">+</span>
-                    </div>
-                    <div id="notifications-mode-list" style="margin: 0px;"></div>
-                    <div id="notifications-new-mode-form" hidden>          
-                        <select id="mode-type" required style="width: 100%;">
-                            <option value="TELEGRAM" selected>Telegram</option>
-                        </select><br>
-                        <input id="mode-value" type="text" required style="width: 100%;" placeholder="handle">                        
-                        <span id="form-cancel-new-mode" style="font-size: large; color: red; cursor: pointer;">X</span>
-                        <span id="form-add-new-mode" style="font-size: large; color: green; cursor: pointer;">&#10003;</span>
-                    </div><br>                    
-                </div>        
-                <span id="notifications-modal-close-button" style="font-size: medium; color: red; cursor: pointer; position: relative;">close</span>                
+    <div id="telegram-register-modal" class="telegram-register-modal" hidden>
+        <div class="telegram-register-modal-content">
+            Please install/open Telegram App, search for <i>@hexdecchaos_bot</i> and enter the command "<b>/register</b>".
+            Enter the <u>6 digit OTP</u> received there in the box below and click submit.
+            <br><input style="width: 70px;" type="number" min="100000" max="999999" id="telegram-otp"/>
+            &nbsp;<span style="color: seagreen; text-decoration: underline;" id="register-submit-button">submit</span>
+            &nbsp;<span style="color: red; text-decoration: underline;" id="register-cancel-button">cancel</span>
         </div>
     </div>
 

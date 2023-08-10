@@ -4,7 +4,7 @@ var month_list = new Array();
 var relationship_list = new Array();
 var color_list = new Array();
 const month_names = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-var notification_settings = new Array();
+var notification_settings = new Object();
 
 // functions to set page level variables
 function set_globals(birthdays) {
@@ -150,13 +150,138 @@ function delete_birthday(eid) {
     xmlhttp.send(JSON.stringify(request));
 }
 
+function check_telegram_enabled() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        set_hidden("telegram-register-modal", true);
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("telegram-enabled").innerHTML = 'Yes';
+            document.getElementById("telegram-register-button").hidden = true;
+            document.getElementById("telegram-test-button").hidden = false;    
+            document.getElementById("telegram-deregister-button").hidden = false;        
+        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+            document.getElementById("telegram-enabled").innerHTML = 'No';    
+            document.getElementById("telegram-register-button").hidden = false;
+            document.getElementById("telegram-test-button").hidden = true;   
+            document.getElementById("telegram-deregister-button").hidden = true; 
+        }
+    }
 
+    // TODO set header from session    
+    xmlhttp.open("GET", url + "telegram/fetch", true);
+    xmlhttp.setRequestHeader('username', 'arjun');
+    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.send();
+}
 
+function test_telegram_notification() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            alert('check your phone ..')
+        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+            alert('error, please try later ..');
+        }
+    }
+
+    // TODO set header from session    
+    xmlhttp.open("GET", url + "telegram/test", true);
+    xmlhttp.setRequestHeader('username', 'arjun');
+    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.send();
+}
+
+function register_telegram() {
+
+    var otp_input_element = document.getElementById("telegram-otp");
+    var otp = otp_input_element.value;
+
+    if(!otp_input_element.checkValidity() || otp === "" || otp === undefined) {
+        alert('invalid OTP');
+        return;
+    }
+    
+    var otp = otp_input_element.value;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            alert(xmlhttp.responseText);
+            check_telegram_enabled();
+
+        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+            alert(xmlhttp.responseText);
+        }
+    }
+
+    var body = {"otp": otp};
+
+    // TODO set header from session    
+    xmlhttp.open("POST", url + "telegram/register", true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.setRequestHeader('username', 'arjun');
+    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.send(JSON.stringify(body));
+}
+
+function deregister_telegram() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            alert(xmlhttp.responseText);
+            check_telegram_enabled();
+
+        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+            alert(xmlhttp.responseText);
+        }
+    }
+
+    // TODO set header from session    
+    xmlhttp.open("GET", url + "telegram/deregister", true);
+    xmlhttp.setRequestHeader('username', 'arjun');
+    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.send();
+}
+
+// functions to generate HTML elements
 function option_element(text) {
     var option = document.createElement("option");
     option.value = "";
     option.innerHTML = text;
     return option;
+}
+
+function br_element() {
+    return document.createElement("br");
+}
+
+function text_span(text) {
+    var element = document.createElement("span");
+    element.innerHTML = text;
+    return element;
+}
+
+function text_div(text) {
+    var element = document.createElement("div");
+    element.innerHTML = text;
+    return element;
+}
+
+function text_div_with_id(text, id) {
+    var element = document.createElement("div");
+    element.innerHTML = text;
+    element.id = id;
+    return element;
+}
+
+function delete_element(elementId) {
+    var deleteSpan = document.createElement("span");
+    deleteSpan.style = "font-size: large; color: red; cursor: pointer;";
+    deleteSpan.innerHTML = "&nbsp;X";
+    deleteSpan.onclick = () => {
+        document.getElementById(elementId).remove();
+    };
+    return deleteSpan;
 }
 
 function populate_filters() {        
@@ -200,7 +325,7 @@ function clear_view() {
 function reload_view() {
     clear_view();
     fetch_birthdays();
-    fetch_notification_settings();
+    check_telegram_enabled();
 }
 
 function generate_view(birthdays, sortCriteria) {
@@ -280,27 +405,6 @@ function generate_view(birthdays, sortCriteria) {
             list_container_element.appendChild(text_div("no birthdays"));
         }
     }        
-}
-
-function show_notification_settings() {
-    var notification_settings_container_element = document.getElementById("notification-settings-container");
-    notification_settings_container_element.innerHTML = "";
-    if(notification_settings === null || notification_settings.length === 0 ) {
-        document.getElementById('bday-add-new-button').disabled = true;
-        notification_settings_container_element.innerHTML = "please add atleast one notification mode";
-    } else {
-        document.getElementById('bday-add-new-button').disabled = false;
-        notification_settings.forEach(notification_setting => {
-            var type = notification_setting.split(':')[0];
-            var value = notification_setting.split(':')[1];
-            var div_element = text_div(type + ' : ' + value);
-            div_element.ondblclick = () => {
-                // TODO edit
-                alert('edit')
-            };
-            notification_settings_container_element.appendChild(div_element);
-        });
-    }    
 }
 
 function build_view_item(birthday, index) { 
@@ -494,40 +598,7 @@ function reset_new_reminders_form() {
     document.getElementById("rem-days").value = '';
 }
 
-function delete_element(elementId) {
-    var deleteSpan = document.createElement("span");
-    deleteSpan.style = "font-size: large; color: red; cursor: pointer;";
-    deleteSpan.innerHTML = "&nbsp;X";
-    deleteSpan.onclick = () => {
-        document.getElementById(elementId).remove();
-    };
-    return deleteSpan;
-}
-
-function br_element() {
-    return document.createElement("br");
-}
-
-function text_span(text) {
-    var element = document.createElement("span");
-    element.innerHTML = text;
-    return element;
-}
-
-function text_div(text) {
-    var element = document.createElement("div");
-    element.innerHTML = text;
-    return element;
-}
-
-function text_div_with_id(text, id) {
-    var element = document.createElement("div");
-    element.innerHTML = text;
-    element.id = id;
-    return element;
-}
-
-var function_apply_filter = () => {
+function function_apply_filter() {
     clear_view();
     var filtered_list = global_list;            
 
@@ -545,137 +616,6 @@ var function_apply_filter = () => {
     }
 
     generate_view(filtered_list, document.getElementById("sort-options").value);
-}
-
-var fetch_notification_settings = () => {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            notification_settings = xmlhttp.responseText === "" ? null : xmlhttp.responseText.split('|');
-            show_notification_settings();
-        }
-    }
-    // TODO URL ???
-    xmlhttp.open("GET", "http://127.0.0.1:5000/notifications/list", true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
-    xmlhttp.send();
-}
-
-var edit_notification_settings = (type, value) => {       
-    if (Number(uid) < 0) {
-        console.log('not logged in');
-        // not logged in
-        // alert("please log in");
-        // return;
-    }
-
-    if(type === "EMAIL" && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-        alert("invalid email address");
-        return;
-    } else if (type === "MOBILE" && !/^[0-9]{10}$/.test(value)) {
-        alert("invalid mobile number");
-        return;
-    } else if (type === "TELEGRAM" && !/^[a-zA-Z0-9]+$/.test(value)) {
-        alert("invalid telegram handle");
-        return;
-    }
-
-    // build request body from form elements
-    var request = {};
-    request["type"] = type;
-    request["value"] = value;        
-
-    // build and send XMLHttpRequest
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            if (xmlhttp.responseText === "success") {
-                alert("successfully updated notification settings");
-                set_hidden("notifications-modal", true);
-                clear_notifications_form();
-                fetch_notification_settings();
-            } else {
-                alert(xmlhttp.responseText);
-            }
-        }
-    }
-    // TODO URL???
-    var url = "http://127.0.0.1:5000/notifications/edit";
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
-    xmlhttp.send(JSON.stringify(request));
-}
-
-var clear_notifications_form = () => {
-    document.getElementById("mode-value").value = "";
-    document.getElementById("mode-type").value = "TELEGRAM";
-}
-
-var add_notification_mode = () => {       
-    if (Number(uid) < 0) {
-        console.log('not logged in');
-        // not logged in
-        // alert("please log in");
-        // return;
-    }
-
-    // validate form inputs
-    var typeElement = document.getElementById("mode-type");
-    var valueElement = document.getElementById("mode-value");
-    
-    if(!valueElement.checkValidity()) {
-        alert("please input an email address or mobile number or handle");
-        return;
-    }
-
-    var type = typeElement.value;
-    var value = valueElement.value;
-
-    if(type === "EMAIL" && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-        alert("invalid email address");
-        return;
-    } else if (type === "MOBILE" && !/^[0-9]{10}$/.test(value)) {
-        alert("invalid mobile number");
-        return;
-    } else if (type === "TELEGRAM" && !/^[a-zA-Z0-9]+$/.test(value)) {
-        alert("invalid telegram handle");
-        return;
-    }
-
-    // build request body from form elements
-    var request = {};
-    request["type"] = type;
-    request["value"] = value;        
-
-    // build and send XMLHttpRequest
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            if (xmlhttp.responseText === "success") {
-                alert("successfully updated notification settings");
-                set_hidden("notifications-modal", true);
-                clear_notifications_form();
-                fetch_notification_settings();
-            } else {
-                alert(xmlhttp.responseText);
-            }
-        }
-    }
-    // TODO URL???
-    var url = "http://127.0.0.1:5000/notifications/add";
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
-    xmlhttp.send(JSON.stringify(request));
-
 }
 
 window.addEventListener('load', () => {    
@@ -800,50 +740,36 @@ window.addEventListener('load', () => {
         });
     }
 
-    if (document.getElementById("notification-settings-add-button")) {
-        document.getElementById("notification-settings-add-button").addEventListener("click", () => {
-            toggle_hidden('notifications-modal');
-            fetch_notification_settings();
+    if (document.getElementById("telegram-test-button")) {
+        document.getElementById("telegram-test-button").addEventListener("click", (event) => {
+            test_telegram_notification();
         });
     }
 
-    if (document.getElementById("notifications-modal-close-button")) {
-        document.getElementById("notifications-modal-close-button").addEventListener("click", () => {
-            set_hidden('notifications-modal', true);
-            set_hidden("notifications-new-mode-form", true);
-            clear_notifications_form();         
+    if (document.getElementById("telegram-register-button")) {
+        document.getElementById("telegram-register-button").addEventListener("click", (event) => {
+            toggle_hidden('telegram-register-modal');
         });
     }
 
-    if (document.getElementById("notifications-new-mode")) {
-        document.getElementById("notifications-new-mode").addEventListener("click", () => {
-            set_hidden("notifications-new-mode-form", false);            
-        });
-    }
-
-    if (document.getElementById("form-add-new-mode")) {
-        document.getElementById("form-add-new-mode").addEventListener("click", () => {
-            add_notification_mode();
-        });
-    }
-
-    if (document.getElementById("form-cancel-new-mode")) {
-        document.getElementById("form-cancel-new-mode").addEventListener("click", () => {
-            set_hidden("notifications-new-mode-form", true);
-            clear_notifications_form();         
-        });
-    }
-
-    if (document.getElementById("mode-type")) {
-        document.getElementById("mode-type").addEventListener("change", () => {
-            var type = document.getElementById("mode-type").value;
-            if(type === "EMAIL") {
-                document.getElementById("mode-value").placeholder = "email address";
-            } else if (type === "MOBILE") {
-                document.getElementById("mode-value").placeholder = "10 digit #";
-            } else {
-                document.getElementById("mode-value").placeholder = "handle";
+    if (document.getElementById("telegram-deregister-button")) {
+        document.getElementById("telegram-deregister-button").addEventListener("click", (event) => {
+            var agree = confirm('You will stop receiving Reminders on Telegram. Are you sure?');
+            if(agree) {
+                deregister_telegram();
             }
+        });
+    }
+
+    if (document.getElementById("register-submit-button")) {
+        document.getElementById("register-submit-button").addEventListener("click", (event) => {
+            register_telegram();
+        });
+    }
+
+    if (document.getElementById("register-cancel-button")) {
+        document.getElementById("register-cancel-button").addEventListener("click", (event) => {
+            toggle_hidden('telegram-register-modal');
         });
     }
 });
