@@ -18,6 +18,11 @@ function set_globals(birthdays) {
 
 // functions to consume APIs
 function fetch_birthdays() {
+    if (Number(uid) < 0) {        
+        // not logged in
+        return;
+    }
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -26,21 +31,18 @@ function fetch_birthdays() {
             generate_view(birthdays, "month");
         }
     }
-    // TODO URL ???
-    xmlhttp.open("GET", "http://127.0.0.1:5000/birthday/list", true);
+    
+    xmlhttp.open("GET", url + "birthday/fetch", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send();
 }
 
 function add_new_birthday(add) {
-    if (Number(uid) < 0) {
-        console.log('not logged in');
+    if (Number(uid) < 0) {        
         // not logged in
-        // alert("please log in");
-        // return;
+        return;
     }
 
     // validate form inputs
@@ -108,22 +110,19 @@ function add_new_birthday(add) {
             }
         }
     }
-    // TODO URL???
-    var url = add ? "http://127.0.0.1:5000/birthday/add" : "http://127.0.0.1:5000/birthday/update";
-    xmlhttp.open("POST", url, true);
+    
+    var endpoint = add ? "birthday/add" : "birthday/update";
+    xmlhttp.open("POST", url + endpoint, true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send(JSON.stringify(request));
 }
 
 function delete_birthday(eid) {
-    if (Number(uid) < 0) {
-        console.log('not logged in');
+    if (Number(uid) < 0) {        
         // not logged in
-        // alert("please log in");
-        // return;
+        return;
     }
 
     // build request body
@@ -140,17 +139,20 @@ function delete_birthday(eid) {
             }
         }
     }
-    // TODO URL???
-    var url = "http://127.0.0.1:5000/birthday/delete";
-    xmlhttp.open("POST", url, true);
+    
+    xmlhttp.open("POST", url + "birthday/delete", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    // TODO set header from session
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send(JSON.stringify(request));
 }
 
 function check_telegram_enabled() {
+    if (Number(uid) < 0) {        
+        // not logged in
+        return;
+    }
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         set_hidden("telegram-register-modal", true);
@@ -167,14 +169,18 @@ function check_telegram_enabled() {
         }
     }
 
-    // TODO set header from session    
     xmlhttp.open("GET", url + "telegram/fetch", true);
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send();
 }
 
 function test_telegram_notification() {
+    if (Number(uid) < 0) {        
+        // not logged in
+        return;
+    }
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -183,15 +189,18 @@ function test_telegram_notification() {
             alert('error, please try later ..');
         }
     }
-
-    // TODO set header from session    
+    
     xmlhttp.open("GET", url + "telegram/test", true);
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send();
 }
 
 function register_telegram() {
+    if (Number(uid) < 0) {        
+        // not logged in
+        return;
+    }
 
     var otp_input_element = document.getElementById("telegram-otp");
     var otp = otp_input_element.value;
@@ -216,15 +225,19 @@ function register_telegram() {
 
     var body = {"otp": otp};
 
-    // TODO set header from session    
     xmlhttp.open("POST", url + "telegram/register", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send(JSON.stringify(body));
 }
 
 function deregister_telegram() {
+    if (Number(uid) < 0) {        
+        // not logged in
+        return;
+    }
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -236,10 +249,9 @@ function deregister_telegram() {
         }
     }
 
-    // TODO set header from session    
     xmlhttp.open("GET", url + "telegram/deregister", true);
-    xmlhttp.setRequestHeader('username', 'arjun');
-    xmlhttp.setRequestHeader('uid', 1);
+    xmlhttp.setRequestHeader('username', username);
+    xmlhttp.setRequestHeader('uid', uid);
     xmlhttp.send();
 }
 
@@ -618,8 +630,18 @@ function function_apply_filter() {
     generate_view(filtered_list, document.getElementById("sort-options").value);
 }
 
-window.addEventListener('load', () => {    
-    reload_view();
+window.addEventListener('load', () => {
+    if(document.getElementById("bday-placeholder") && document.getElementById("bday-container")) {
+        if (Number(uid) < 0) {        
+            // not logged in
+            set_hidden("bday-placeholder", false);
+            set_hidden("bday-container", true);
+        } else {
+            set_hidden("bday-placeholder", true);
+            set_hidden("bday-container", false);
+            reload_view();
+        }
+    }        
 
     if (document.getElementById("bday-add-new-button")) {
         document.getElementById("bday-add-new-button").addEventListener("click", () => {

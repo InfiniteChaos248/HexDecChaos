@@ -1,5 +1,7 @@
 const app = require('./app');
 const bot = require('./telegram/telegram_bot');
+const job = require('./util/scheduler');
+var logger = require("./log");
 
 if (process.env.ENVIRONMENT === 'prod') {
     const greenlock = require('greenlock-express');
@@ -29,5 +31,7 @@ if (process.env.ENVIRONMENT === 'prod') {
         console.log('HTTPS Server running on port 443');
     });
 }
+
+logger.info('scheduler job status = ' + job.running);
 
 bot.launch();

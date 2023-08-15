@@ -4,18 +4,13 @@ CREATE TABLE user (
     email text not null,
     password text not null,
     name text,
-    create_ts text not null);
-
-alter table user add mobile text;
-alter table user add telegram text; 
+    create_ts text not null); 
 
 CREATE TABLE comment (
     id integer primary key,
     comment text not null,
     create_ts text not null);
 
-
-BIRTHDAY => ID, UID, USERNAME, NAME, RELATIONSHIP, YEAR, MONTH, DAY, NOTES, REMINDERS, WISHES, COLOR
 CREATE TABLE IF NOT EXISTS BIRTHDAY (
     ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
     UID INTEGER NOT NULL, 
@@ -30,20 +25,13 @@ CREATE TABLE IF NOT EXISTS BIRTHDAY (
     WISHES TEXT,
     COLOR TEXT);
 
-INSERT INTO BIRTHDAY VALUES (1, 1, 'arjun', 'Arjun', 'family', 1997, 8, 24, 'cool', 'DEFAULT|1D', '[{ "mode": "em", "value": "svarjun1997@gmail.com", "from": "arjun", "message": "hbd!" }]', '#000000|#FFFFFF');
-INSERT INTO 
-BIRTHDAY(UID, USERNAME, NAME, RELATIONSHIP, YEAR, MONTH, DAY, NOTES, REMINDERS, WISHES, COLOR) 
-VALUES (1, 'arjun', 'Arjun', 'family', 1997, 8, 24, 'cool', 'DEFAULT|1D', '[{ "mode": "em", "value": "svarjun1997@gmail.com", "from": "arjun", "message": "hbd!" }]', '#000000|#FFFFFF');
-
-
-CREATE TABLE IF NOT EXISTS TOOLBOX_DATA (
+CREATE TABLE IF NOT EXISTS BIRTHDAY_EVENTS (
     ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    UID INTEGER NOT NULL, 
-    USERNAME TEXT NOT NULL,
-    TOOL TEXT NOT NULL,
-    DATA TEXT NOT NULL
-);
+    BID INTEGER NOT NULL, 
+    MONTH INT NOT NULL, 
+    DAY INT NOT NULL, 
+    YEAR INT NOT NULL,
+    TYPE TEXT NOT NULL);
 
-INSERT INTO 
-TOOLBOX_DATA(UID, USERNAME, TOOL, DATA) 
-VALUES (1, 'arjun', 'bday', '');
+alter table user add mobile text;
+alter table user add telegram text;    

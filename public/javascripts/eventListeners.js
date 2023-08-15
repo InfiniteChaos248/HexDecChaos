@@ -1,9 +1,4 @@
-window.addEventListener('load', () => {
-
-    console.log("uid = " + uid)
-    console.log("username = " + username)
-    console.log("url = " + url)
-
+window.addEventListener('load', () => {    
     document.getElementById("navbar-home").addEventListener("click", () => {
         navigate_to('/');
     });

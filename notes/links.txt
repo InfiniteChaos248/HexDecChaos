@@ -18,3 +18,5 @@ https://stackoverflow.com/questions/27906551/node-js-logging-use-morgan-and-wins
 
 https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/
 https://www.reddit.com/r/Python/comments/8bb102/comment/dx5qklz/
+
+https://stackoverflow.com/questions/39197038/why-is-my-session-expiring-every-time-i-close-the-browser
