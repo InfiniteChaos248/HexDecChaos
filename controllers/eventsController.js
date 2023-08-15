@@ -3,10 +3,11 @@ var controller = express.Router();
 var OTP_CHAT_ID_CACHE = require("../telegram/cache");
 const db = require('../util/database');
 const bot = require('../telegram/telegram_bot');
+var {checkAuthenticated} = require('../util/userUtil');
 
 // TODO DB rollback ?
 
-controller.post('/telegram/register', (req, res) => {
+controller.post('/telegram/register', checkAuthenticated, (req, res) => {
     otp = req.body['otp']  
     uid = req.headers['uid']
     username = req.headers['username']
@@ -22,7 +23,7 @@ controller.post('/telegram/register', (req, res) => {
     }
 })
 
-controller.get('/telegram/deregister', (req, res) => { 
+controller.get('/telegram/deregister', checkAuthenticated, (req, res) => { 
     uid = req.headers['uid']
     username = req.headers['username']
     db.run('UPDATE USER SET TELEGRAM = null WHERE USERNAME = ? AND ID = ?', [username, uid], (err) => {
@@ -31,7 +32,7 @@ controller.get('/telegram/deregister', (req, res) => {
     })
 })
 
-controller.get('/telegram/fetch', (req, res) => { 
+controller.get('/telegram/fetch', checkAuthenticated, (req, res) => { 
     uid = req.headers['uid']
     username = req.headers['username']
     
@@ -49,7 +50,7 @@ controller.get('/telegram/fetch', (req, res) => {
     })
 })
 
-controller.get('/telegram/test', (req, res) => { 
+controller.get('/telegram/test', checkAuthenticated, (req, res) => { 
     uid = req.headers['uid']
     username = req.headers['username']
     
@@ -69,7 +70,7 @@ controller.get('/telegram/test', (req, res) => {
     })
 })
 
-controller.get('/birthday/fetch', (req, res) => { 
+controller.get('/birthday/fetch', checkAuthenticated, (req, res) => { 
     uid = req.headers['uid']
     username = req.headers['username']
     
@@ -92,7 +93,7 @@ controller.get('/birthday/fetch', (req, res) => {
     })
 })
 
-controller.post('/birthday/add', (req, res) => { 
+controller.post('/birthday/add', checkAuthenticated, (req, res) => { 
     try {
         uid = req.headers['uid']
         username = req.headers['username']
@@ -135,7 +136,7 @@ controller.post('/birthday/add', (req, res) => {
     }      
 })
 
-controller.post('/birthday/update', (req, res) => { 
+controller.post('/birthday/update', checkAuthenticated, (req, res) => { 
     try {
         eid = req.body['eid']    
         uid = req.headers['uid']
@@ -196,7 +197,7 @@ controller.post('/birthday/update', (req, res) => {
     }      
 })
 
-controller.post('/birthday/delete', (req, res) => { 
+controller.post('/birthday/delete', checkAuthenticated, (req, res) => { 
     try {
         eid = req.body['eid']    
         uid = req.headers['uid']
