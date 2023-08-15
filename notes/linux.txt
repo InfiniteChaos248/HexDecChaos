@@ -49,6 +49,8 @@ sudo nano .env
 ctrl+O to save
 ctrl+X to close
 
+ps -e | grep node
+
 // kill process
 netstat -tunlp
 kill -9 <pid>
@@ -57,6 +59,9 @@ kill -9 <pid>
 tmux list-session
 tmux new-session -s hexdecchaos -d
 tmux attach-session -t hexdecchaos
+
+detatch => ctrl + B, d
+kill => ctrl + B, :kill-session
 
 // greenlock
 npx greenlock init --config-dir ../certs/greenlock.d --maintainer-email 'chaoticsoftwares@gmail.com'
