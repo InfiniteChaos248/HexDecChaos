@@ -15,7 +15,7 @@ controller.post('/telegram/register', checkAuthenticated, (req, res) => {
     if(chat_id === undefined) {
         res.status(202).send('not registered in Telegram or OTP expired');
     } else {
-        db.run('UPDATE USER SET TELEGRAM = ? WHERE USERNAME = ? AND ID = ?', [chat_id, username, uid], (err) => {
+        db.run('UPDATE USER SET TELEGRAM = ? WHERE USERNAME = ? AND ID = ?', [String(Number(chat_id)), username, uid], (err) => {
             if (err) res.status(500).send("error, try again later");
             OTP_CHAT_ID_CACHE.del(otp);
             res.status(200).send("registration successful, you will now receive reminders on Telegram");
@@ -113,22 +113,24 @@ controller.post('/birthday/add', checkAuthenticated, (req, res) => {
         if (err) throw err;
         var bid = this.lastID;
         var today_date = new Date();
+        today_date.setHours(0,0,0,0);
         reminders.split('|').forEach(rem => {
             var event_date = new Date();
+            event_date.setHours(0,0,0,0);
             event_date.setMonth(month - 1, day);
-            if(event_date <= today_date) {
-                event_date.setFullYear(today_date.getFullYear() + 1);
-            }
             if(rem!=='DEFAULT') {
                 var days = Number(rem.replace("D", ""));
                 event_date.setDate(event_date.getDate() - days);
             }
+            if(event_date <= today_date) {
+                event_date.setFullYear(today_date.getFullYear() + 1);
+            }
             db.run('INSERT INTO BIRTHDAY_EVENTS(BID, MONTH, DAY, YEAR, REM) VALUES (?, ?, ?, ?, ?)', 
-            [bid, event_date.getMonth(), event_date.getDate(), event_date.getFullYear(), rem], 
+            [bid, event_date.getMonth() + 1, event_date.getDate(), event_date.getFullYear(), rem], 
             (err) => {
                 if (err) throw err;
             })
-        });
+        })
         res.status(200).send("success")
     })
     } catch(err) {
@@ -167,18 +169,20 @@ controller.post('/birthday/update', checkAuthenticated, (req, res) => {
                         db.run('DELETE FROM BIRTHDAY_EVENTS WHERE BID = ?', [bid], function(err) {
                             if(err) throw err;
                             var today_date = new Date();
+                            today_date.setHours(0,0,0,0);
                             reminders.split('|').forEach(rem => {
                                 var event_date = new Date();
+                                event_date.setHours(0,0,0,0);
                                 event_date.setMonth(month - 1, day);
-                                if(event_date <= today_date) {
-                                    event_date.setFullYear(today_date.getFullYear() + 1);
-                                }
                                 if(rem!=='DEFAULT') {
                                     var days = Number(rem.replace("D", ""));
                                     event_date.setDate(event_date.getDate() - days);
                                 }
+                                if(event_date <= today_date) {
+                                    event_date.setFullYear(today_date.getFullYear() + 1);
+                                }
                                 db.run('INSERT INTO BIRTHDAY_EVENTS(BID, MONTH, DAY, YEAR, REM) VALUES (?, ?, ?, ?, ?)', 
-                                [bid, event_date.getMonth(), event_date.getDate(), event_date.getFullYear(), rem], 
+                                [bid, event_date.getMonth() + 1, event_date.getDate(), event_date.getFullYear(), rem], 
                                 (err) => {
                                     if (err) throw err;
                                 })
