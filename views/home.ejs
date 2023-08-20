@@ -18,6 +18,7 @@
     <script type="text/javascript" src="/javascripts/toss.js"></script>
     <script type="text/javascript" src="/javascripts/gen.js"></script>
     <script type="text/javascript" src="/javascripts/bday.js"></script>
+    <script type="text/javascript" src="/javascripts/instate.js"></script>
 
     <script nonce="bfb15a69">
       const uid = '<%= uid %>';
@@ -35,6 +36,7 @@
     <% if(show == 'gen') { %> <%- include('gen.ejs') %> <% } %>
     <% if(show == 'bday') { %> <%- include('./bday/bday.ejs') %> <% } %>
     <% if(show == 'games') { %> <%- include('games.ejs') %> <% } %>
+    <% if(show == 'instate') { %> <%- include('./games/instate.ejs') %> <% } %>
     <% if(show == 'blogspace') { %> <%- include('blogspace.ejs') %> <% } %>
     <% if(show == 'about') { %> <%- include('about.ejs') %> <% } %>
     <% if(show == 'login') { %> <%- include('login.ejs') %> <% } %>

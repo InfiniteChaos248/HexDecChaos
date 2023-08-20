@@ -55,6 +55,15 @@ router.get('/games', checkLoginStatus, function(req, res, next) {
   res.render('home', render_options(req, 'games'));
 });
 
+router.get('/game/:game', checkLoginStatus, function(req, res, next) {
+  gameName = req.params.game;
+  showPage = "games"
+  if (gameName == "instate") {
+    showPage = "instate";
+  }
+  res.render('home', render_options(req, showPage));
+});
+
 /* GET blogspace page. */
 router.get('/blogspace', checkLoginStatus, function(req, res, next) {
   res.render('home', render_options(req, 'blogspace'));
